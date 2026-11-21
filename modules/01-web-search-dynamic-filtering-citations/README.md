@@ -110,7 +110,7 @@ We reran the experiment at scale (November 21, 2026, $7.73): 7 questions, dynami
 
 - **53 of 56** default runs that used code failed on the first step, every time for the same reason: the code treated `web_search`'s return value as a list, but inside code execution it is a **JSON string** (`'str' object has no attribute 'get'` or `string indices must be integers`).
 - Not tied to the tool version (`20260209`: 4/6 on Haiku, 7/7 on Sonnet) and not fixed by a generic system prompt (5/6).
-- **Why:** the [programmatic tool calling docs](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling) say tools called from code return a string, and recommend describing the output format in the tool's description. You can't edit `web_search`'s description, so the system prompt is the only place left to say it:
+- **Why:** the sandbox annotates `web_search` with the wrong return type. See [the root cause](#root-cause-the-annotation-promises-a-list-the-function-returns-a-string) below. Until that changes, the system prompt is the only place to tell Claude the truth:
 
 ```bash
 uv run cited-search ask --mode dynamic --show-code --system "When you filter web search results with code: web_search returns a JSON string, so parse it with json.loads first. Then keep only the results whose title or content mention the key terms of the question, prefer the most recent ones (check page_age and the dates in the content), and print the passages around those terms. Never truncate the raw results before filtering them." "What is the latest stable Python version?"
@@ -118,8 +118,34 @@ uv run cited-search ask --mode dynamic --show-code --system "When you filter web
 
 - With it, Sonnet uses **33% fewer input tokens** and 1.6 code steps instead of 3.5. On Haiku the cost barely moves: the guided code reads more useful content.
 - **Citations:** 0 of 80 runs that went through code had inline citations; 10 of 10 runs where Claude called `web_search` directly did.
-- **Reported to Anthropic** on November 21, 2026, through Console support, with the reproduction and the data.
+- **Reported to Anthropic** on November 21, 2026, through Console support, with the reproduction and the data, then followed up with the root cause below.
 - **What we did not show:** the outdated Python answers from earlier runs (3.14 instead of 3.15.2) did not come back in this series, so the effect on answer quality is intermittent. 90 runs on one day is a strong signal for the crash, not a benchmark.
+
+#### Root cause: the annotation promises a list, the function returns a string
+
+We asked Claude to run introspection code inside the sandbox (code that inspects the functions without calling them). This is what the sandbox exposes:
+
+```python
+async def web_search(params: dict) -> list[dict]:
+    return await _call_client_tool('web_search', **locals())
+
+async def web_fetch(params: dict) -> list[dict] | dict:
+    return await _call_client_tool('web_fetch', **locals())
+```
+
+| Callable | Annotated as | Actually returns |
+|---|---|---|
+| `web_search` (`20260209` and `20260318`) | `list[dict]` | `str`, JSON of a list. `json.loads` gives dicts with `content`, `page_age`, `title`, `type`, `url` |
+| `web_fetch` (`20260209`) | `list[dict] \| dict` | `str`, JSON of an object |
+| Your own tool with `allowed_callers: ["code_execution_20260120"]` | `str` | `str` ✅ |
+
+User-defined tools are annotated correctly, so the mismatch is specific to Anthropic's server web tools. If Claude sees these signatures, and everything suggests it does, it isn't guessing wrong: it trusts an annotation that is wrong. That explains why every model writes `for x in r[:5]: x.get(...)`, where `r[:5]` is just the first 5 characters `'[{"ty'`.
+
+One more sign that the model sees the signature: Haiku sometimes calls `web_search` directly with `{"params": {"query": ...}}`, copying the Python signature, and gets `invalid_tool_input`.
+
+A one-line fix on Anthropic's side would be to annotate the stubs `-> str`, or to `json.loads` inside them so they return what they promise. Sent to Anthropic as a follow-up on November 21, 2026.
+
+**Blind replication.** A separate agent, which knew none of these conclusions and had no access to this repo, wrote its own scripts and picked its own questions. It found the same annotations and return types, and the same first-step failures: 7 of 8 Haiku runs and 5 of 5 Sonnet runs that used code. Across both investigations: 105 runs, 4 models.
 
 #### Reproduce it
 
