@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" width="880" height="400" role="img" aria-label="From citations in the API response to footnotes your users see">
+<title>From citations in the API response to footnotes your users see</title>
+<style>
+:root { --bg:#ffffff; --panel:#f6f8fa; --border:#d0d7de; --text:#1f2328; --muted:#59636e;
+        --blue:#0969da; --orange:#bc4c00; --green:#1a7f37; --red:#cf222e; --chip:#ddf4ff; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#0d1117; --panel:#161b22; --border:#30363d; --text:#e6edf3; --muted:#9198a1;
+          --blue:#4493f8; --orange:#e8875b; --green:#3fb950; --red:#f85149; --chip:#0c2d6b; }
+}
+text { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: var(--text); }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.muted { fill: var(--muted); } .blue { fill: var(--blue); } .green { fill: var(--green); }
+.red { fill: var(--red); } .orange { fill: var(--orange); }
+.bg { fill: var(--bg); stroke: var(--border); }
+.panel { fill: var(--panel); stroke: var(--border); }
+.chip { fill: var(--chip); stroke: var(--blue); }
+.ok { fill: none; stroke: var(--green); stroke-width: 2.5; }
+.bad { fill: none; stroke: var(--red); stroke-width: 2.5; }
+.line { stroke: var(--muted); stroke-width: 1.6; fill: none; }
+.title { font-size: 17px; font-weight: 600; }
+.label { font-size: 13px; } .small { font-size: 11.5px; } .tiny { font-size: 10.5px; }
+@keyframes r1 { 0%, 14% { opacity:0; transform:translate(0px,0px) } 16.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r1 { animation: r1 12s ease-out infinite; opacity:0; }
+@keyframes r2 { 0%, 14% { opacity:0; transform:translate(0px,0px) } 16.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r2 { animation: r2 12s ease-out infinite; opacity:0; }
+@keyframes r3 { 0%, 34% { opacity:0; transform:translate(0px,0px) } 36.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r3 { animation: r3 12s ease-out infinite; opacity:0; }
+@keyframes r4 { 0%, 34% { opacity:0; transform:translate(0px,0px) } 36.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r4 { animation: r4 12s ease-out infinite; opacity:0; }
+@keyframes r5 { 0%, 54% { opacity:0; transform:translate(0px,0px) } 56.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r5 { animation: r5 12s ease-out infinite; opacity:0; }
+@keyframes r6 { 0%, 54% { opacity:0; transform:translate(0px,0px) } 56.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r6 { animation: r6 12s ease-out infinite; opacity:0; }
+@keyframes r7 { 0%, 18% { opacity:0; transform:translate(0px,0px) } 20.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r7 { animation: r7 12s ease-out infinite; opacity:0; }
+@keyframes f8 { 0%, 42% { fill-opacity:0 } 44.5%, 93% { fill-opacity:1 } 100% { fill-opacity:0 } }
+.f8 { animation: f8 12s ease-out infinite; fill-opacity:0; }
+@keyframes r9 { 0%, 38% { opacity:0; transform:translate(0px,0px) } 40.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r9 { animation: r9 12s ease-out infinite; opacity:0; }
+@keyframes f10 { 0%, 62% { fill-opacity:0 } 64.5%, 93% { fill-opacity:1 } 100% { fill-opacity:0 } }
+.f10 { animation: f10 12s ease-out infinite; fill-opacity:0; }
+@keyframes r11 { 0%, 58% { opacity:0; transform:translate(0px,0px) } 60.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r11 { animation: r11 12s ease-out infinite; opacity:0; }
+@keyframes r12 { 0%, 44% { opacity:0; transform:translate(0px,0px) } 46.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r12 { animation: r12 12s ease-out infinite; opacity:0; }
+@keyframes r13 { 0%, 46% { opacity:0; transform:translate(0px,0px) } 48.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r13 { animation: r13 12s ease-out infinite; opacity:0; }
+@keyframes r14 { 0%, 48% { opacity:0; transform:translate(0px,0px) } 50.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r14 { animation: r14 12s ease-out infinite; opacity:0; }
+@keyframes r15 { 0%, 64% { opacity:0; transform:translate(0px,0px) } 66.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r15 { animation: r15 12s ease-out infinite; opacity:0; }
+@keyframes r16 { 0%, 66% { opacity:0; transform:translate(0px,0px) } 68.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r16 { animation: r16 12s ease-out infinite; opacity:0; }
+@keyframes r17 { 0%, 74% { opacity:0; transform:translate(0px,0px) } 76.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r17 { animation: r17 12s ease-out infinite; opacity:0; }
+@keyframes r18 { 0%, 74% { opacity:0; transform:translate(0px,0px) } 76.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r18 { animation: r18 12s ease-out infinite; opacity:0; }
+@media (prefers-reduced-motion: reduce) { [class^='r'], [class^='g'], [class*=' f'] { animation: none !important; opacity: 1 !important; fill-opacity: 1 !important; transform: none !important; } }</style>
+<rect class="bg" x="0.5" y="0.5" width="879" height="399" rx="10"/>
+<text x="24" y="34" class="title" text-anchor="start">From citations to footnotes</text>
+<text x="24" y="54" class="small muted" text-anchor="start">Claude splits its answer into text blocks; some carry a citations list</text>
+<text x="24" y="84" class="small muted" text-anchor="start">API response · content blocks</text>
+<text x="470" y="84" class="small muted" text-anchor="start">What your user sees</text>
+<rect class="panel" x="462" y="94" width="402" height="250" rx="8"/>
+<rect class="bg" x="24" y="96" width="410" height="70" rx="8"/>
+<text x="36" y="118" class="tiny mono muted" text-anchor="start">{ &quot;type&quot;: &quot;text&quot;,</text>
+<text x="48" y="136" class="small mono" text-anchor="start">&quot;Based on the search results, &quot;</text>
+<text x="48" y="154" class="tiny mono muted" text-anchor="start">citations: null</text>
+<g class="r1"><rect class="ok" x="22" y="94" width="414" height="74" rx="9"/></g>
+<g class="r2"><path class="line" d="M438,131 L458,131"/><path class="line" d="M451,126 L458,131 L451,136"/></g>
+<rect class="bg" x="24" y="178" width="410" height="70" rx="8"/>
+<text x="36" y="200" class="tiny mono muted" text-anchor="start">{ &quot;type&quot;: &quot;text&quot;,</text>
+<text x="48" y="218" class="small mono" text-anchor="start">&quot;Shannon was born on April 30, 1916&quot;</text>
+<text x="48" y="236" class="tiny mono blue" text-anchor="start">citations: [ wikipedia.org ]</text>
+<g class="r3"><rect class="ok" x="22" y="176" width="414" height="74" rx="9"/></g>
+<g class="r4"><path class="line" d="M438,213 L458,213"/><path class="line" d="M451,208 L458,213 L451,218"/></g>
+<rect class="bg" x="24" y="260" width="410" height="70" rx="8"/>
+<text x="36" y="282" class="tiny mono muted" text-anchor="start">{ &quot;type&quot;: &quot;text&quot;,</text>
+<text x="48" y="300" class="small mono" text-anchor="start">&quot;, father of information theory&quot;</text>
+<text x="48" y="318" class="tiny mono blue" text-anchor="start">citations: [ britannica.com, wikipedia.org ]</text>
+<g class="r5"><rect class="ok" x="22" y="258" width="414" height="74" rx="9"/></g>
+<g class="r6"><path class="line" d="M438,295 L458,295"/><path class="line" d="M451,290 L458,295 L451,300"/></g>
+<g class="r7"><text x="478" y="126" class="label" text-anchor="start">Based on the search results,</text></g>
+<g class="r9"><text x="478" y="148" class="label">Shannon was born on April 30, 1916<tspan class="blue f8" dx="2">[1]</tspan></text></g>
+<g class="r11"><text x="478" y="170" class="label">, father of information theory.<tspan class="blue f10" dx="2">[2][1]</tspan></text></g>
+<g class="r12"><text x="478" y="214" class="small muted" text-anchor="start">Sources</text></g>
+<g class="r13"><text x="478" y="236" class="small" text-anchor="start">[1] Claude Shannon - Wikipedia</text></g>
+<g class="r14"><text x="498" y="252" class="tiny mono muted" text-anchor="start">&quot;Claude Elwood Shannon (April 30, 1916 ...&quot;</text></g>
+<g class="r15"><text x="478" y="276" class="small" text-anchor="start">[2] Claude Shannon | Britannica</text></g>
+<g class="r16"><text x="498" y="292" class="tiny mono muted" text-anchor="start">&quot;Shannon is regarded as the father of ...&quot;</text></g>
+<g class="r17"><rect class="bg" x="24" y="352" width="840" height="36" rx="8"/></g>
+<g class="r18"><text x="40" y="375" class="small orange" text-anchor="start">Dynamic filtering: Claude often answers from its code output → citations: null → show the searched pages instead.</text></g>
+</svg>

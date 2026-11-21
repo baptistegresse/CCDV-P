@@ -54,6 +54,8 @@ Claude decides **if** it needs to search (recent facts: yes, math or stable know
 | `web_search_20250305` (basic) | **every** search result, relevant or not |
 | `web_search_20260209` / `20260318` | only what Claude keeps after **writing and running code** to filter the results |
 
+![Animation: with basic search all 10 results enter Claude's context window; with dynamic filtering, code execution keeps 2 of them, yet the measured run used more input tokens](docs/basic-vs-dynamic.svg)
+
 The code execution environment is provisioned automatically: **don't add the `code_execution` tool yourself**, or Claude ends up with two execution environments. `20260318` also adds `response_inclusion` to drop the raw nested results from the response.
 
 In the response, the searches then appear *inside* code execution: a `server_tool_use` named `code_execution`, then the nested `web_search` call and its results, each with a `caller` field pointing to that code execution call.
@@ -76,12 +78,16 @@ Claude splits its answer into several `text` blocks. A block that relies on a so
 
 `cited_text` holds up to 150 characters and costs no tokens. When you show the output to end users, you must show the citations: [`render.py`](src/cited_search/render.py) turns them into `[n]` footnotes.
 
+![Animation: three text blocks from the API response, two of them with a citations list, become one answer with [1] and [2][1] markers and a numbered list of sources](docs/citations.svg)
+
 ⚠️ **With dynamic filtering, the answer often has no inline citations.** Claude answers from its filtering code's *output* rather than from the raw results, so the `text` blocks come back with `citations: null`. The pages it searched are still in the response, so `searched_pages()` lists them under "No inline citations. Pages searched for this answer:".
 
 ### 4. Three things that will bite you in production
 1. **A failed search doesn't raise.** You still get HTTP 200, and the result's `content` is an *error object* (`max_uses_exceeded`, `invalid_tool_input`, ...) instead of a *list*. See `search_errors()`.
 2. **`pause_turn`.** A long search turn can stop halfway. To resume it, send back **every** paused response in order (each continuation holds only *new* content), the same tools, and the **container id** (dynamic filtering runs in a code execution container). Never add a "continue" message. See `run_search()`.
 3. **Multi-turn conversations.** Send the assistant blocks back exactly as received: `encrypted_content` / `encrypted_index` must stay untouched or you get a 400.
+
+![Animation: request 1 returns A with pause_turn, request 2 sends user and A plus the container id and returns only B, request 3 sends user, A and B and returns C with end_turn; the full turn is A, B and C](docs/pause-turn.svg)
 
 ---
 
@@ -160,6 +166,7 @@ uv run pytest --cov=cited_search
 | [`render.py`](src/cited_search/render.py) | Citations to footnotes, fallback to searched pages, search queries, search errors. Pure functions, tested offline |
 | [`cli.py`](src/cited_search/cli.py) | `ask` / `compare`, budget defaults, refusal and API error handling |
 | [`tests/`](tests/) | Real SDK objects built from JSON fixtures, plus a fake client to test the loop without network |
+| [`docs/build_animations.py`](docs/build_animations.py) | Generates the animated diagrams above (pure CSS SVG: themed, and still when you reduce motion) |
 
 ## Try it yourself
 

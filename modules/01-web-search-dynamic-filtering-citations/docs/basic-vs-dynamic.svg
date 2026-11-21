@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" width="880" height="470" role="img" aria-label="Basic vs dynamic filtering: what reaches Claude&#x27;s context window">
+<title>Basic vs dynamic filtering: what reaches Claude&#x27;s context window</title>
+<style>
+:root { --bg:#ffffff; --panel:#f6f8fa; --border:#d0d7de; --text:#1f2328; --muted:#59636e;
+        --blue:#0969da; --orange:#bc4c00; --green:#1a7f37; --red:#cf222e; --chip:#ddf4ff; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#0d1117; --panel:#161b22; --border:#30363d; --text:#e6edf3; --muted:#9198a1;
+          --blue:#4493f8; --orange:#e8875b; --green:#3fb950; --red:#f85149; --chip:#0c2d6b; }
+}
+text { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: var(--text); }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.muted { fill: var(--muted); } .blue { fill: var(--blue); } .green { fill: var(--green); }
+.red { fill: var(--red); } .orange { fill: var(--orange); }
+.bg { fill: var(--bg); stroke: var(--border); }
+.panel { fill: var(--panel); stroke: var(--border); }
+.chip { fill: var(--chip); stroke: var(--blue); }
+.ok { fill: none; stroke: var(--green); stroke-width: 2.5; }
+.bad { fill: none; stroke: var(--red); stroke-width: 2.5; }
+.line { stroke: var(--muted); stroke-width: 1.6; fill: none; }
+.title { font-size: 17px; font-weight: 600; }
+.label { font-size: 13px; } .small { font-size: 11.5px; } .tiny { font-size: 10.5px; }
+@keyframes r1 { 0%, 4% { opacity:0; transform:translate(0px,0px) } 6.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r1 { animation: r1 12s ease-out infinite; opacity:0; }
+@keyframes r2 { 0%, 4% { opacity:0; transform:translate(0px,0px) } 6.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r2 { animation: r2 12s ease-out infinite; opacity:0; }
+@keyframes r3 { 0%, 8% { opacity:0; transform:translate(0px,0px) } 10.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r3 { animation: r3 12s ease-out infinite; opacity:0; }
+@keyframes r4 { 0%, 10.0% { opacity:0; transform:translate(-16px,0px) } 12.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r4 { animation: r4 12s ease-out infinite; opacity:0; }
+@keyframes r5 { 0%, 11.2% { opacity:0; transform:translate(-16px,0px) } 13.7%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r5 { animation: r5 12s ease-out infinite; opacity:0; }
+@keyframes r6 { 0%, 12.4% { opacity:0; transform:translate(-16px,0px) } 14.9%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r6 { animation: r6 12s ease-out infinite; opacity:0; }
+@keyframes r7 { 0%, 13.6% { opacity:0; transform:translate(-16px,0px) } 16.1%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r7 { animation: r7 12s ease-out infinite; opacity:0; }
+@keyframes r8 { 0%, 14.8% { opacity:0; transform:translate(-16px,0px) } 17.3%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r8 { animation: r8 12s ease-out infinite; opacity:0; }
+@keyframes r9 { 0%, 16.0% { opacity:0; transform:translate(-16px,0px) } 18.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r9 { animation: r9 12s ease-out infinite; opacity:0; }
+@keyframes r10 { 0%, 17.2% { opacity:0; transform:translate(-16px,0px) } 19.7%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r10 { animation: r10 12s ease-out infinite; opacity:0; }
+@keyframes r11 { 0%, 18.4% { opacity:0; transform:translate(-16px,0px) } 20.9%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r11 { animation: r11 12s ease-out infinite; opacity:0; }
+@keyframes r12 { 0%, 19.6% { opacity:0; transform:translate(-16px,0px) } 22.1%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r12 { animation: r12 12s ease-out infinite; opacity:0; }
+@keyframes r13 { 0%, 20.799999999999997% { opacity:0; transform:translate(-16px,0px) } 23.299999999999997%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r13 { animation: r13 12s ease-out infinite; opacity:0; }
+@keyframes r14 { 0%, 22% { opacity:0; transform:translate(0px,0px) } 24.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r14 { animation: r14 12s ease-out infinite; opacity:0; }
+@keyframes r15 { 0%, 28% { opacity:0; transform:translate(0px,0px) } 30.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r15 { animation: r15 12s ease-out infinite; opacity:0; }
+@keyframes r16 { 0%, 28% { opacity:0; transform:translate(0px,0px) } 30.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r16 { animation: r16 12s ease-out infinite; opacity:0; }
+@keyframes g17 { 0%, 32% { transform:scaleX(0) } 46%, 93% { transform:scaleX(1) } 100% { transform:scaleX(0) } }
+.g17 { animation: g17 12s ease-in-out infinite; transform-box: fill-box; transform-origin: left; transform:scaleX(0); }
+@keyframes r18 { 0%, 46% { opacity:0; transform:translate(0px,0px) } 48.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r18 { animation: r18 12s ease-out infinite; opacity:0; }
+@keyframes r19 { 0%, 4% { opacity:0; transform:translate(0px,0px) } 6.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r19 { animation: r19 12s ease-out infinite; opacity:0; }
+@keyframes r20 { 0%, 4% { opacity:0; transform:translate(0px,0px) } 6.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r20 { animation: r20 12s ease-out infinite; opacity:0; }
+@keyframes r21 { 0%, 8% { opacity:0; transform:translate(0px,0px) } 10.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r21 { animation: r21 12s ease-out infinite; opacity:0; }
+@keyframes r22 { 0%, 10.0% { opacity:0; transform:translate(-16px,0px) } 12.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r22 { animation: r22 12s ease-out infinite; opacity:0; }
+@keyframes r23 { 0%, 11.2% { opacity:0; transform:translate(-16px,0px) } 13.7%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r23 { animation: r23 12s ease-out infinite; opacity:0; }
+@keyframes r24 { 0%, 12.4% { opacity:0; transform:translate(-16px,0px) } 14.9%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r24 { animation: r24 12s ease-out infinite; opacity:0; }
+@keyframes r25 { 0%, 13.6% { opacity:0; transform:translate(-16px,0px) } 16.1%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r25 { animation: r25 12s ease-out infinite; opacity:0; }
+@keyframes r26 { 0%, 14.8% { opacity:0; transform:translate(-16px,0px) } 17.3%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r26 { animation: r26 12s ease-out infinite; opacity:0; }
+@keyframes r27 { 0%, 16.0% { opacity:0; transform:translate(-16px,0px) } 18.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r27 { animation: r27 12s ease-out infinite; opacity:0; }
+@keyframes r28 { 0%, 17.2% { opacity:0; transform:translate(-16px,0px) } 19.7%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r28 { animation: r28 12s ease-out infinite; opacity:0; }
+@keyframes r29 { 0%, 18.4% { opacity:0; transform:translate(-16px,0px) } 20.9%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r29 { animation: r29 12s ease-out infinite; opacity:0; }
+@keyframes r30 { 0%, 19.6% { opacity:0; transform:translate(-16px,0px) } 22.1%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r30 { animation: r30 12s ease-out infinite; opacity:0; }
+@keyframes r31 { 0%, 20.799999999999997% { opacity:0; transform:translate(-16px,0px) } 23.299999999999997%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r31 { animation: r31 12s ease-out infinite; opacity:0; }
+@keyframes r32 { 0%, 22% { opacity:0; transform:translate(0px,0px) } 24.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r32 { animation: r32 12s ease-out infinite; opacity:0; }
+@keyframes r33 { 0%, 28% { opacity:0; transform:translate(0px,0px) } 30.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r33 { animation: r33 12s ease-out infinite; opacity:0; }
+@keyframes r34 { 0%, 30% { opacity:0; transform:translate(0px,0px) } 32.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r34 { animation: r34 12s ease-out infinite; opacity:0; }
+@keyframes r35 { 0%, 30% { opacity:0; transform:translate(0px,0px) } 32.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r35 { animation: r35 12s ease-out infinite; opacity:0; }
+@keyframes r36 { 0%, 34% { opacity:0; transform:translate(0px,0px) } 36.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r36 { animation: r36 12s ease-out infinite; opacity:0; }
+@keyframes r37 { 0%, 36% { opacity:0; transform:translate(0px,0px) } 38.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r37 { animation: r37 12s ease-out infinite; opacity:0; }
+@keyframes r38 { 0%, 40.0% { opacity:0; transform:translate(0px,0px) } 42.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r38 { animation: r38 12s ease-out infinite; opacity:0; }
+@keyframes r39 { 0%, 40.6% { opacity:0; transform:translate(0px,0px) } 43.1%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r39 { animation: r39 12s ease-out infinite; opacity:0; }
+@keyframes r40 { 0%, 41.2% { opacity:0; transform:translate(0px,0px) } 43.7%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r40 { animation: r40 12s ease-out infinite; opacity:0; }
+@keyframes r41 { 0%, 41.8% { opacity:0; transform:translate(0px,0px) } 44.3%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r41 { animation: r41 12s ease-out infinite; opacity:0; }
+@keyframes r42 { 0%, 42.4% { opacity:0; transform:translate(0px,0px) } 44.9%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r42 { animation: r42 12s ease-out infinite; opacity:0; }
+@keyframes r43 { 0%, 43.0% { opacity:0; transform:translate(0px,0px) } 45.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r43 { animation: r43 12s ease-out infinite; opacity:0; }
+@keyframes r44 { 0%, 43.6% { opacity:0; transform:translate(0px,0px) } 46.1%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r44 { animation: r44 12s ease-out infinite; opacity:0; }
+@keyframes r45 { 0%, 44.2% { opacity:0; transform:translate(0px,0px) } 46.7%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r45 { animation: r45 12s ease-out infinite; opacity:0; }
+@keyframes r46 { 0%, 44.8% { opacity:0; transform:translate(0px,0px) } 47.3%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r46 { animation: r46 12s ease-out infinite; opacity:0; }
+@keyframes r47 { 0%, 45.4% { opacity:0; transform:translate(0px,0px) } 47.9%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r47 { animation: r47 12s ease-out infinite; opacity:0; }
+@keyframes r48 { 0%, 50% { opacity:0; transform:translate(0px,0px) } 52.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r48 { animation: r48 12s ease-out infinite; opacity:0; }
+@keyframes g49 { 0%, 52% { transform:scaleX(0) } 60%, 93% { transform:scaleX(1) } 100% { transform:scaleX(0) } }
+.g49 { animation: g49 12s ease-in-out infinite; transform-box: fill-box; transform-origin: left; transform:scaleX(0); }
+@keyframes r50 { 0%, 60% { opacity:0; transform:translate(0px,0px) } 62.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r50 { animation: r50 12s ease-out infinite; opacity:0; }
+@keyframes r51 { 0%, 60% { opacity:0; transform:translate(0px,0px) } 62.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r51 { animation: r51 12s ease-out infinite; opacity:0; }
+@keyframes r52 { 0%, 66% { opacity:0; transform:translate(0px,0px) } 68.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r52 { animation: r52 12s ease-out infinite; opacity:0; }
+@keyframes r53 { 0%, 72% { opacity:0; transform:translate(0px,0px) } 74.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r53 { animation: r53 12s ease-out infinite; opacity:0; }
+@media (prefers-reduced-motion: reduce) { [class^='r'], [class^='g'], [class*=' f'] { animation: none !important; opacity: 1 !important; fill-opacity: 1 !important; transform: none !important; } }</style>
+<rect class="bg" x="0.5" y="0.5" width="879" height="469" rx="10"/>
+<text x="24" y="34" class="title" text-anchor="start">What reaches Claude&#x27;s context window?</text>
+<text x="24" y="54" class="small muted" text-anchor="start">Same question, two versions of the web_search tool</text>
+<rect class="panel" x="16" y="78" width="848" height="150" rx="8"/>
+<text x="32" y="102" class="label" text-anchor="start">basic</text>
+<text x="32" y="120" class="tiny mono muted" text-anchor="start">web_search_20250305</text>
+<g class="r1"><rect class="chip" x="32" y="140" width="110" height="44" rx="8"/></g>
+<g class="r2"><text x="87" y="167" class="label blue" text-anchor="middle">web search</text></g>
+<g class="r3"><path class="line" d="M146,162 L184,162"/><path class="line" d="M177,157 L184,162 L177,167"/></g>
+<g class="r4"><rect class="panel" x="192" y="134" width="34" height="24" rx="4"/><rect class="line" x="198" y="142" width="22" height="1"/><rect class="line" x="198" y="149" width="14" height="1"/></g>
+<g class="r5"><rect class="panel" x="232" y="134" width="34" height="24" rx="4"/><rect class="line" x="238" y="142" width="22" height="1"/><rect class="line" x="238" y="149" width="14" height="1"/></g>
+<g class="r6"><rect class="panel" x="272" y="134" width="34" height="24" rx="4"/><rect class="line" x="278" y="142" width="22" height="1"/><rect class="line" x="278" y="149" width="14" height="1"/></g>
+<g class="r7"><rect class="panel" x="312" y="134" width="34" height="24" rx="4"/><rect class="line" x="318" y="142" width="22" height="1"/><rect class="line" x="318" y="149" width="14" height="1"/></g>
+<g class="r8"><rect class="panel" x="352" y="134" width="34" height="24" rx="4"/><rect class="line" x="358" y="142" width="22" height="1"/><rect class="line" x="358" y="149" width="14" height="1"/></g>
+<g class="r9"><rect class="panel" x="192" y="166" width="34" height="24" rx="4"/><rect class="line" x="198" y="174" width="22" height="1"/><rect class="line" x="198" y="181" width="14" height="1"/></g>
+<g class="r10"><rect class="panel" x="232" y="166" width="34" height="24" rx="4"/><rect class="line" x="238" y="174" width="22" height="1"/><rect class="line" x="238" y="181" width="14" height="1"/></g>
+<g class="r11"><rect class="panel" x="272" y="166" width="34" height="24" rx="4"/><rect class="line" x="278" y="174" width="22" height="1"/><rect class="line" x="278" y="181" width="14" height="1"/></g>
+<g class="r12"><rect class="panel" x="312" y="166" width="34" height="24" rx="4"/><rect class="line" x="318" y="174" width="22" height="1"/><rect class="line" x="318" y="181" width="14" height="1"/></g>
+<g class="r13"><rect class="panel" x="352" y="166" width="34" height="24" rx="4"/><rect class="line" x="358" y="174" width="22" height="1"/><rect class="line" x="358" y="181" width="14" height="1"/></g>
+<g class="r14"><text x="290" y="210" class="tiny muted" text-anchor="middle">10 raw results</text></g>
+<rect class="bg" x="640" y="130" width="208" height="70" rx="8"/>
+<text x="744" y="122" class="small" text-anchor="middle">Claude&#x27;s context window</text>
+<g class="r15"><path class="line" d="M398,162 L630,162"/><path class="line" d="M623,157 L630,162 L623,167"/></g>
+<g class="r16"><text x="514" y="154" class="tiny muted" text-anchor="middle">everything goes in</text></g>
+<rect class="g17 chip" x="648" y="140" width="192" height="50" rx="3"/>
+<g class="r18"><text x="744" y="170" class="small blue" text-anchor="middle">all 10 results</text></g>
+<rect class="panel" x="16" y="248" width="848" height="150" rx="8"/>
+<text x="32" y="272" class="label" text-anchor="start">dynamic filtering</text>
+<text x="32" y="290" class="tiny mono muted" text-anchor="start">web_search_20260318</text>
+<g class="r19"><rect class="chip" x="32" y="310" width="110" height="44" rx="8"/></g>
+<g class="r20"><text x="87" y="337" class="label blue" text-anchor="middle">web search</text></g>
+<g class="r21"><path class="line" d="M146,332 L184,332"/><path class="line" d="M177,327 L184,332 L177,337"/></g>
+<g class="r22"><rect class="panel" x="192" y="304" width="34" height="24" rx="4"/><rect class="line" x="198" y="312" width="22" height="1"/><rect class="line" x="198" y="319" width="14" height="1"/></g>
+<g class="r23"><rect class="panel" x="232" y="304" width="34" height="24" rx="4"/><rect class="line" x="238" y="312" width="22" height="1"/><rect class="line" x="238" y="319" width="14" height="1"/></g>
+<g class="r24"><rect class="panel" x="272" y="304" width="34" height="24" rx="4"/><rect class="line" x="278" y="312" width="22" height="1"/><rect class="line" x="278" y="319" width="14" height="1"/></g>
+<g class="r25"><rect class="panel" x="312" y="304" width="34" height="24" rx="4"/><rect class="line" x="318" y="312" width="22" height="1"/><rect class="line" x="318" y="319" width="14" height="1"/></g>
+<g class="r26"><rect class="panel" x="352" y="304" width="34" height="24" rx="4"/><rect class="line" x="358" y="312" width="22" height="1"/><rect class="line" x="358" y="319" width="14" height="1"/></g>
+<g class="r27"><rect class="panel" x="192" y="336" width="34" height="24" rx="4"/><rect class="line" x="198" y="344" width="22" height="1"/><rect class="line" x="198" y="351" width="14" height="1"/></g>
+<g class="r28"><rect class="panel" x="232" y="336" width="34" height="24" rx="4"/><rect class="line" x="238" y="344" width="22" height="1"/><rect class="line" x="238" y="351" width="14" height="1"/></g>
+<g class="r29"><rect class="panel" x="272" y="336" width="34" height="24" rx="4"/><rect class="line" x="278" y="344" width="22" height="1"/><rect class="line" x="278" y="351" width="14" height="1"/></g>
+<g class="r30"><rect class="panel" x="312" y="336" width="34" height="24" rx="4"/><rect class="line" x="318" y="344" width="22" height="1"/><rect class="line" x="318" y="351" width="14" height="1"/></g>
+<g class="r31"><rect class="panel" x="352" y="336" width="34" height="24" rx="4"/><rect class="line" x="358" y="344" width="22" height="1"/><rect class="line" x="358" y="351" width="14" height="1"/></g>
+<g class="r32"><text x="290" y="380" class="tiny muted" text-anchor="middle">10 raw results</text></g>
+<rect class="bg" x="640" y="300" width="208" height="70" rx="8"/>
+<text x="744" y="292" class="small" text-anchor="middle">Claude&#x27;s context window</text>
+<g class="r33"><path class="line" d="M398,332 L428,332"/><path class="line" d="M421,327 L428,332 L421,337"/></g>
+<g class="r34"><rect class="bg" x="436" y="302" width="162" height="62" rx="8"/></g>
+<g class="r35"><text x="517" y="322" class="small orange" text-anchor="middle">code execution</text></g>
+<g class="r36"><text x="517" y="342" class="tiny mono" text-anchor="middle">keep = filter(results)</text></g>
+<g class="r37"><text x="517" y="356" class="tiny mono" text-anchor="middle">print(keep)</text></g>
+<g class="r38"><rect class="bad" x="192" y="304" width="34" height="24" rx="4"/></g>
+<g class="r39"><rect class="ok" x="232" y="304" width="34" height="24" rx="4"/></g>
+<g class="r40"><rect class="bad" x="272" y="304" width="34" height="24" rx="4"/></g>
+<g class="r41"><rect class="bad" x="312" y="304" width="34" height="24" rx="4"/></g>
+<g class="r42"><rect class="bad" x="352" y="304" width="34" height="24" rx="4"/></g>
+<g class="r43"><rect class="bad" x="192" y="336" width="34" height="24" rx="4"/></g>
+<g class="r44"><rect class="bad" x="232" y="336" width="34" height="24" rx="4"/></g>
+<g class="r45"><rect class="ok" x="272" y="336" width="34" height="24" rx="4"/></g>
+<g class="r46"><rect class="bad" x="312" y="336" width="34" height="24" rx="4"/></g>
+<g class="r47"><rect class="bad" x="352" y="336" width="34" height="24" rx="4"/></g>
+<g class="r48"><path class="line" d="M602,332 L630,332"/><path class="line" d="M623,327 L630,332 L623,337"/></g>
+<rect class="g49 chip" x="648" y="310" width="64" height="50" rx="3"/>
+<g class="r50"><text x="760" y="332" class="small blue" text-anchor="middle">code output only</text></g>
+<g class="r51"><text x="760" y="350" class="tiny muted" text-anchor="middle">(2 results kept)</text></g>
+<g class="r52"><text x="24" y="428" class="small" text-anchor="start">Fewer results in context is not always fewer tokens: each code step re-reads the conversation.</text></g>
+<g class="r53"><text x="24" y="450" class="small orange" text-anchor="start">Measured (Opus 5.5, one run): basic 15,143 input tokens · dynamic 35,136 input tokens</text></g>
+</svg>

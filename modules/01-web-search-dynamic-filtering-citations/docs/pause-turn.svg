@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" width="880" height="430" role="img" aria-label="Resuming a pause_turn: send every paused response back">
+<title>Resuming a pause_turn: send every paused response back</title>
+<style>
+:root { --bg:#ffffff; --panel:#f6f8fa; --border:#d0d7de; --text:#1f2328; --muted:#59636e;
+        --blue:#0969da; --orange:#bc4c00; --green:#1a7f37; --red:#cf222e; --chip:#ddf4ff; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#0d1117; --panel:#161b22; --border:#30363d; --text:#e6edf3; --muted:#9198a1;
+          --blue:#4493f8; --orange:#e8875b; --green:#3fb950; --red:#f85149; --chip:#0c2d6b; }
+}
+text { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: var(--text); }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.muted { fill: var(--muted); } .blue { fill: var(--blue); } .green { fill: var(--green); }
+.red { fill: var(--red); } .orange { fill: var(--orange); }
+.bg { fill: var(--bg); stroke: var(--border); }
+.panel { fill: var(--panel); stroke: var(--border); }
+.chip { fill: var(--chip); stroke: var(--blue); }
+.ok { fill: none; stroke: var(--green); stroke-width: 2.5; }
+.bad { fill: none; stroke: var(--red); stroke-width: 2.5; }
+.line { stroke: var(--muted); stroke-width: 1.6; fill: none; }
+.title { font-size: 17px; font-weight: 600; }
+.label { font-size: 13px; } .small { font-size: 11.5px; } .tiny { font-size: 10.5px; }
+@keyframes r1 { 0%, 6% { opacity:0; transform:translate(0px,0px) } 8.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r1 { animation: r1 12s ease-out infinite; opacity:0; }
+@keyframes r2 { 0%, 6% { opacity:0; transform:translate(0px,0px) } 8.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r2 { animation: r2 12s ease-out infinite; opacity:0; }
+@keyframes r3 { 0%, 8% { opacity:0; transform:translate(0px,0px) } 10.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r3 { animation: r3 12s ease-out infinite; opacity:0; }
+@keyframes r4 { 0%, 12% { opacity:0; transform:translate(0px,0px) } 14.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r4 { animation: r4 12s ease-out infinite; opacity:0; }
+@keyframes r5 { 0%, 12% { opacity:0; transform:translate(0px,0px) } 14.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r5 { animation: r5 12s ease-out infinite; opacity:0; }
+@keyframes r6 { 0%, 18% { opacity:0; transform:translate(-20px,0px) } 20.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r6 { animation: r6 12s ease-out infinite; opacity:0; }
+@keyframes r7 { 0%, 20% { opacity:0; transform:translate(0px,0px) } 22.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r7 { animation: r7 12s ease-out infinite; opacity:0; }
+@keyframes r8 { 0%, 30% { opacity:0; transform:translate(0px,0px) } 32.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r8 { animation: r8 12s ease-out infinite; opacity:0; }
+@keyframes r9 { 0%, 30% { opacity:0; transform:translate(0px,0px) } 32.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r9 { animation: r9 12s ease-out infinite; opacity:0; }
+@keyframes r10 { 0%, 32% { opacity:0; transform:translate(0px,0px) } 34.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r10 { animation: r10 12s ease-out infinite; opacity:0; }
+@keyframes r11 { 0%, 32% { opacity:0; transform:translate(0px,0px) } 34.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r11 { animation: r11 12s ease-out infinite; opacity:0; }
+@keyframes r12 { 0%, 34% { opacity:0; transform:translate(0px,0px) } 36.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r12 { animation: r12 12s ease-out infinite; opacity:0; }
+@keyframes r13 { 0%, 36% { opacity:0; transform:translate(0px,0px) } 38.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r13 { animation: r13 12s ease-out infinite; opacity:0; }
+@keyframes r14 { 0%, 36% { opacity:0; transform:translate(0px,0px) } 38.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r14 { animation: r14 12s ease-out infinite; opacity:0; }
+@keyframes r15 { 0%, 42% { opacity:0; transform:translate(-20px,0px) } 44.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r15 { animation: r15 12s ease-out infinite; opacity:0; }
+@keyframes r16 { 0%, 44% { opacity:0; transform:translate(0px,0px) } 46.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r16 { animation: r16 12s ease-out infinite; opacity:0; }
+@keyframes r17 { 0%, 46% { opacity:0; transform:translate(0px,0px) } 48.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r17 { animation: r17 12s ease-out infinite; opacity:0; }
+@keyframes r18 { 0%, 54% { opacity:0; transform:translate(0px,0px) } 56.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r18 { animation: r18 12s ease-out infinite; opacity:0; }
+@keyframes r19 { 0%, 54% { opacity:0; transform:translate(0px,0px) } 56.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r19 { animation: r19 12s ease-out infinite; opacity:0; }
+@keyframes r20 { 0%, 56% { opacity:0; transform:translate(0px,0px) } 58.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r20 { animation: r20 12s ease-out infinite; opacity:0; }
+@keyframes r21 { 0%, 56% { opacity:0; transform:translate(0px,0px) } 58.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r21 { animation: r21 12s ease-out infinite; opacity:0; }
+@keyframes r22 { 0%, 56% { opacity:0; transform:translate(0px,0px) } 58.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r22 { animation: r22 12s ease-out infinite; opacity:0; }
+@keyframes r23 { 0%, 58% { opacity:0; transform:translate(0px,0px) } 60.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r23 { animation: r23 12s ease-out infinite; opacity:0; }
+@keyframes r24 { 0%, 60% { opacity:0; transform:translate(0px,0px) } 62.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r24 { animation: r24 12s ease-out infinite; opacity:0; }
+@keyframes r25 { 0%, 60% { opacity:0; transform:translate(0px,0px) } 62.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r25 { animation: r25 12s ease-out infinite; opacity:0; }
+@keyframes r26 { 0%, 66% { opacity:0; transform:translate(-20px,0px) } 68.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r26 { animation: r26 12s ease-out infinite; opacity:0; }
+@keyframes r27 { 0%, 68% { opacity:0; transform:translate(0px,0px) } 70.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r27 { animation: r27 12s ease-out infinite; opacity:0; }
+@keyframes r28 { 0%, 76% { opacity:0; transform:translate(0px,0px) } 78.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r28 { animation: r28 12s ease-out infinite; opacity:0; }
+@keyframes r29 { 0%, 78% { opacity:0; transform:translate(0px,0px) } 80.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r29 { animation: r29 12s ease-out infinite; opacity:0; }
+@keyframes r30 { 0%, 80% { opacity:0; transform:translate(0px,0px) } 82.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r30 { animation: r30 12s ease-out infinite; opacity:0; }
+@keyframes r31 { 0%, 82% { opacity:0; transform:translate(0px,0px) } 84.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r31 { animation: r31 12s ease-out infinite; opacity:0; }
+@keyframes r32 { 0%, 84% { opacity:0; transform:translate(0px,0px) } 86.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r32 { animation: r32 12s ease-out infinite; opacity:0; }
+@keyframes r33 { 0%, 86% { opacity:0; transform:translate(0px,0px) } 88.5%, 93% { opacity:1; transform:translate(0,0) } 100% { opacity:0 } }
+.r33 { animation: r33 12s ease-out infinite; opacity:0; }
+@media (prefers-reduced-motion: reduce) { [class^='r'], [class^='g'], [class*=' f'] { animation: none !important; opacity: 1 !important; fill-opacity: 1 !important; transform: none !important; } }</style>
+<rect class="bg" x="0.5" y="0.5" width="879" height="429" rx="10"/>
+<text x="24" y="34" class="title" text-anchor="start">Resuming a paused search turn (stop_reason: pause_turn)</text>
+<text x="24" y="54" class="small muted" text-anchor="start">Each continuation returns only NEW content, so you send everything back, in order</text>
+<text x="24" y="86" class="small muted" text-anchor="start">you send</text>
+<text x="560" y="86" class="small muted" text-anchor="start">API returns</text>
+<g class="r1"><rect class="panel" x="16" y="100" width="848" height="64" rx="8"/></g>
+<g class="r2"><text x="32" y="124" class="small" text-anchor="start">request 1</text></g>
+<g class="r3"><rect class="bg" x="32" y="132" width="46" height="24" rx="6"/><text x="55.0" y="149" class="small" text-anchor="middle">user</text></g>
+<g class="r4"><path class="line" d="M320,140 L548,140"/><path class="line" d="M541,135 L548,140 L541,145"/></g>
+<g class="r5"><text x="434" y="132" class="tiny mono muted" text-anchor="middle">messages.create(...)</text></g>
+<g class="r6"><rect class="chip" x="560" y="120" width="34" height="26" rx="6"/><text x="577" y="138" class="label" text-anchor="middle">A</text></g>
+<g class="r7"><text x="606" y="138" class="small mono orange" text-anchor="start">stop_reason: pause_turn</text></g>
+<g class="r8"><rect class="panel" x="16" y="178" width="848" height="64" rx="8"/></g>
+<g class="r9"><text x="32" y="202" class="small" text-anchor="start">request 2</text></g>
+<g class="r10"><rect class="bg" x="32" y="210" width="46" height="24" rx="6"/><text x="55.0" y="227" class="small" text-anchor="middle">user</text></g>
+<g class="r11"><rect class="bg" x="84" y="210" width="34" height="24" rx="6"/><text x="101.0" y="227" class="small" text-anchor="middle">A</text></g>
+<g class="r12"><text x="130" y="227" class="tiny mono orange" text-anchor="start">+ container id</text></g>
+<g class="r13"><path class="line" d="M320,218 L548,218"/><path class="line" d="M541,213 L548,218 L541,223"/></g>
+<g class="r14"><text x="434" y="210" class="tiny mono muted" text-anchor="middle">messages.create(...)</text></g>
+<g class="r15"><rect class="chip" x="560" y="198" width="34" height="26" rx="6"/><text x="577" y="216" class="label" text-anchor="middle">B</text></g>
+<g class="r16"><text x="606" y="216" class="small mono orange" text-anchor="start">stop_reason: pause_turn</text></g>
+<g class="r17"><text x="606" y="232" class="tiny muted" text-anchor="start">only the new part!</text></g>
+<g class="r18"><rect class="panel" x="16" y="256" width="848" height="64" rx="8"/></g>
+<g class="r19"><text x="32" y="280" class="small" text-anchor="start">request 3</text></g>
+<g class="r20"><rect class="bg" x="32" y="288" width="46" height="24" rx="6"/><text x="55.0" y="305" class="small" text-anchor="middle">user</text></g>
+<g class="r21"><rect class="bg" x="84" y="288" width="34" height="24" rx="6"/><text x="101.0" y="305" class="small" text-anchor="middle">A</text></g>
+<g class="r22"><rect class="bg" x="124" y="288" width="34" height="24" rx="6"/><text x="141.0" y="305" class="small" text-anchor="middle">B</text></g>
+<g class="r23"><text x="170" y="305" class="tiny mono orange" text-anchor="start">+ container id</text></g>
+<g class="r24"><path class="line" d="M320,296 L548,296"/><path class="line" d="M541,291 L548,296 L541,301"/></g>
+<g class="r25"><text x="434" y="288" class="tiny mono muted" text-anchor="middle">messages.create(...)</text></g>
+<g class="r26"><rect class="chip" x="560" y="276" width="34" height="26" rx="6"/><text x="577" y="294" class="label" text-anchor="middle">C</text></g>
+<g class="r27"><text x="606" y="294" class="small mono green" text-anchor="start">stop_reason: end_turn</text></g>
+<g class="r28"><text x="24" y="356" class="label" text-anchor="start">Full turn =</text></g>
+<g class="r29"><rect class="chip" x="106" y="338" width="34" height="26" rx="6"/><text x="123" y="356" class="label" text-anchor="middle">A</text></g>
+<g class="r30"><rect class="chip" x="148" y="338" width="34" height="26" rx="6"/><text x="165" y="356" class="label" text-anchor="middle">B</text></g>
+<g class="r31"><rect class="chip" x="190" y="338" width="34" height="26" rx="6"/><text x="207" y="356" class="label" text-anchor="middle">C</text></g>
+<g class="r32"><text x="240" y="356" class="small muted" text-anchor="start">→ render citations from all of it</text></g>
+<g class="r33"><text x="24" y="400" class="small red" text-anchor="start">Sending only B (or a &quot;continue&quot; message) loses the earlier work and can return a 400.</text></g>
+</svg>
