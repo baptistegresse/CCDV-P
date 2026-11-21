@@ -12,6 +12,7 @@ dependencies = [
 
 [project.scripts]
 cited-search = "cited_search.cli:main"
+cited-search-experiment = "cited_search.experiment:main"
 
 [build-system]
 requires = ["uv_build>=0.11.7,<0.12.0"]

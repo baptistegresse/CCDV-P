@@ -4,8 +4,8 @@ from cited_search.models import MODELS, estimate_cost, get_model
 from cited_search.search import Usage
 
 
-def test_knows_the_three_current_models():
-    assert set(MODELS) == {"claude-haiku-5-5", "claude-sonnet-5-5", "claude-opus-5-5"}
+def test_knows_the_current_models():
+    assert set(MODELS) == {"claude-haiku-5-5", "claude-sonnet-5-5", "claude-opus-5-5", "claude-fable-5-2"}
 
 
 def test_rejects_an_unknown_model():

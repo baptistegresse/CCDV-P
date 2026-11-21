@@ -11,6 +11,12 @@ The official course explains *what* to do. This repo shows *how it looks in code
 
 ---
 
+## 🔎 Finding: dynamic web search trips on its first step
+
+In 90 live runs across Haiku 5.5, Sonnet 5.5, Opus 5.5 and Fable 5.2, Claude's first filtering code step failed **53 times out of 56** when dynamic filtering was set up exactly as documented. Inside code execution, `web_search` returns a JSON **string**, and Claude writes its first step as if it were a list. It recovers, at the cost of extra steps and tokens.
+
+One paragraph of system prompt fixes it: on Sonnet 5.5, **0 failures out of 7 and 33% fewer input tokens**. Measurements, the prompt, and a script to reproduce everything are in [module 01](modules/01-web-search-dynamic-filtering-citations/#the-first-step-fails-almost-every-time-90-runs-4-models).
+
 ## Modules
 
 | # | Lesson | Concept | Example | Status |

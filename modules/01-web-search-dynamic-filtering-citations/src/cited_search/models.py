@@ -30,6 +30,8 @@ MODELS: dict[str, ModelInfo] = {
     "claude-haiku-5-5": ModelInfo("claude-haiku-5-5", 0.10, 0.50, supports_fallbacks=False),
     "claude-sonnet-5-5": ModelInfo("claude-sonnet-5-5", 2.00, 10.00, supports_fallbacks=True),
     "claude-opus-5-5": ModelInfo("claude-opus-5-5", 4.00, 20.00, supports_fallbacks=True),
+    # Most capable model, priced well above Opus: use it to compare, not by default.
+    "claude-fable-5-2": ModelInfo("claude-fable-5-2", 8.00, 40.00, supports_fallbacks=True),
 }
 
 

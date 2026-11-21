@@ -34,6 +34,8 @@ class SearchMode(Enum):
     # context window. Code execution is provisioned automatically: do NOT also
     # declare the code_execution tool.
     DYNAMIC = "web_search_20260318"
+    # First version with dynamic filtering, kept to compare with 20260318.
+    DYNAMIC_20260209 = "web_search_20260209"
 
 
 class TooManyContinuationsError(RuntimeError):

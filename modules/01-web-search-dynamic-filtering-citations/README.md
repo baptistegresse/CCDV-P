@@ -97,29 +97,38 @@ The output of a step that **calls** `web_search` always comes back encrypted (`e
 
 So in practice, "filtering" mostly meant **cutting**: the first results, the first characters. On the Python question the code printed only the first 1,500 characters of the raw results, and the answer was outdated again (3.14 instead of 3.15.2). A rerun with `--show-code` confirmed it: the search had found "Python 3.15.0 (final) is here!" on blog.python.org, but in 7th position, past the cut.
 
-#### Bigger model, or a better prompt?
+#### The first step fails almost every time: 90 runs, 4 models
 
-Same 7 questions, dynamic mode, one run each. Pattern counts come from simple regexes on the code, so treat them as rough:
+We reran the experiment at scale (November 21, 2026, $7.73): 7 questions, dynamic mode, `max_uses: 5`, with and without one paragraph of guidance in the system prompt.
 
-| | Haiku 5.5 | Sonnet 5.5 | **Haiku 5.5 + filter guide** |
-|---|---:|---:|---:|
-| Runs that used filtering code | 4 / 7 | 7 / 7 | 6 / 7 |
-| First code step crashed (list vs JSON string) | 4 / 4 | **7 / 7** | **0 / 6** |
-| Code steps parsing with `json.loads` | 1 / 11 | 10 / 25 | 6 / 7 |
-| Python question answered correctly (3.15.2) | ❌ | ✅ | ✅ |
-| Inline citations in runs that used code | 0 | 0 | 0 |
-| Cost of the 7 runs | $0.18 | **$0.82** | **$0.16** |
+| Model | First code step failed, default | With the guidance prompt | Input tokens per run, default → guided | Cost per run, default → guided |
+|---|---:|---:|---:|---:|
+| Haiku 5.5 | 13 / 13 | 3 / 14 (none format-related) | 31,994 → 29,298 | $0.026 → $0.025 |
+| Sonnet 5.5 | 14 / 14 | **0 / 7** | 36,965 → **24,832** | $0.111 → **$0.088** |
+| Opus 5.5 | 7 / 7 | 2 / 3 (3 questions) | 29,272 → 24,800 | $0.162 → $0.141 |
+| Fable 5.2 | 3 / 3 | not tested | 56,589 | $0.588 |
 
-- **Sonnet hits the same bug** on every first step. It gets the right answer by doing more steps (25 instead of 11) and reading more, at 5× the price.
-- **The fix is one paragraph of system prompt.** Tell Claude what `web_search` returns and how to filter, and Haiku stops crashing, filters by date and terms, and finds 3.15.2 at Haiku's price:
+- **53 of 56** default runs that used code failed on the first step, every time for the same reason: the code treated `web_search`'s return value as a list, but inside code execution it is a **JSON string** (`'str' object has no attribute 'get'` or `string indices must be integers`).
+- Not tied to the tool version (`20260209`: 4/6 on Haiku, 7/7 on Sonnet) and not fixed by a generic system prompt (5/6).
+- **Why:** the [programmatic tool calling docs](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling) say tools called from code return a string, and recommend describing the output format in the tool's description. You can't edit `web_search`'s description, so the system prompt is the only place left to say it:
 
 ```bash
 uv run cited-search ask --mode dynamic --show-code --system "When you filter web search results with code: web_search returns a JSON string, so parse it with json.loads first. Then keep only the results whose title or content mention the key terms of the question, prefer the most recent ones (check page_age and the dates in the content), and print the passages around those terms. Never truncate the raw results before filtering them." "What is the latest stable Python version?"
 ```
 
-- **Citations stay empty** whenever Claude goes through code, guided or not, Haiku or Sonnet.
+- With it, Sonnet uses **33% fewer input tokens** and 1.6 code steps instead of 3.5. On Haiku the cost barely moves: the guided code reads more useful content.
+- **Citations:** 0 of 80 runs that went through code had inline citations; 10 of 10 runs where Claude called `web_search` directly did.
+- **What we did not show:** the outdated Python answers from earlier runs (3.14 instead of 3.15.2) did not come back in this series, so the effect on answer quality is intermittent. 90 runs on one day is a strong signal for the crash, not a benchmark.
 
-Only the Python answer was checked for correctness. Run `--show-code` and judge the filter before you trust it.
+#### Reproduce it
+
+```bash
+uv run cited-search-experiment run --plan quick --yes   # 14 runs, about $0.40
+uv run cited-search-experiment run --plan full --yes    # the 90 runs above, about $8
+uv run cited-search-experiment analyze results/2026-11-21-runs.jsonl
+```
+
+Without `--yes` it only prints the estimated cost. It stops starting new runs past its budget (`--budget`). Each run is saved as a one-line summary: raw API responses are never written, because their encrypted fields contain your organization's id. Our 90 runs are in [`results/2026-11-21-runs.jsonl`](results/2026-11-21-runs.jsonl).
 
 ### 3. Citations
 Claude splits its answer into several `text` blocks. A block that relies on a source carries a `citations` list:
@@ -226,6 +235,7 @@ uv run pytest --cov=cited_search
 | [`models.py`](src/cited_search/models.py) | Model list, prices, cost estimate (tokens + searches) |
 | [`filtering.py`](src/cited_search/filtering.py) | `--show-code`: pairs each code step with its searches and output, flags encrypted outputs and failures |
 | [`render.py`](src/cited_search/render.py) | Citations to footnotes, fallback to searched pages, search queries, search errors. Pure functions, tested offline |
+| [`experiment.py`](src/cited_search/experiment.py) | `cited-search-experiment`: reproducible runs with a budget guard, plus the analysis |
 | [`cli.py`](src/cited_search/cli.py) | `ask` / `compare`, budget defaults, refusal and API error handling |
 | [`tests/`](tests/) | Real SDK objects built from JSON fixtures, plus a fake client to test the loop without network |
 | [`docs/build_animations.py`](docs/build_animations.py) | Generates the animated diagrams above (pure CSS SVG: themed, and still when you reduce motion) |
