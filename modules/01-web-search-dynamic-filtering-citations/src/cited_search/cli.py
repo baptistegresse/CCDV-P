@@ -6,7 +6,13 @@ from typing import Any
 
 import anthropic
 
-from cited_search.render import extract_answer, format_answer, search_errors, search_queries
+from cited_search.render import (
+    extract_answer,
+    format_answer,
+    search_errors,
+    search_queries,
+    searched_pages,
+)
 from cited_search.search import SearchMode, SearchResult, TooManyContinuationsError, run_search
 
 EXIT_OK = 0
@@ -55,7 +61,7 @@ def _print_result(result: SearchResult) -> int:
     queries = search_queries(result.content)
     print("Searched for: " + (", ".join(f'"{q}"' for q in queries) or "nothing (answered directly)"))
     print()
-    print(format_answer(extract_answer(result.content)))
+    print(format_answer(extract_answer(result.content), searched_pages(result.content)))
     if result.message.stop_reason == "max_tokens":
         print("\nwarning: the answer was cut off (max_tokens reached)", file=sys.stderr)
     return EXIT_OK

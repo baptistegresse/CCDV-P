@@ -6,6 +6,11 @@ How citations arrive: Claude splits its answer into several `text` blocks.
 A block that relies on a source carries a `citations` list; each entry of
 type `web_search_result_location` has the source `url`, `title` and up to
 150 characters of `cited_text`.
+
+Observed with dynamic filtering: when Claude answers from the output of its
+own filtering code, the text blocks can carry NO citations. The pages it
+searched are still in the response (`web_search_tool_result` blocks with a
+`caller` pointing at the code execution call), so we list those instead.
 """
 
 from dataclasses import dataclass
@@ -26,6 +31,12 @@ class Source:
 class Answer:
     text: str
     sources: tuple[Source, ...]
+
+
+@dataclass(frozen=True)
+class Page:
+    url: str
+    title: str
 
 
 def _web_citations(block: Any) -> tuple[Any, ...]:
@@ -84,13 +95,34 @@ def search_errors(content: Iterable[Any]) -> tuple[str, ...]:
     )
 
 
-def format_answer(answer: Answer) -> str:
-    if not answer.sources:
-        return f"{answer.text}\n\nNo sources cited."
+def searched_pages(content: Iterable[Any]) -> tuple[Page, ...]:
+    """Every page returned by web search in this turn, direct or from code, deduplicated."""
+    pages: tuple[Page, ...] = ()
+    for block in content:
+        if block.type != "web_search_tool_result" or not isinstance(block.content, list):
+            continue
+        known = {page.url for page in pages}
+        new = tuple(Page(r.url, r.title or r.url) for r in block.content if r.url not in known)
+        pages = (*pages, *{page.url: page for page in new}.values())
+    return pages
 
-    lines = [answer.text, "", "Sources:"]
-    for source in answer.sources:
-        lines.append(f"  [{source.number}] {source.title}")
-        lines.append(f"      {source.url}")
-        lines.extend(f'      "{quote}"' for quote in source.quotes)
-    return "\n".join(lines)
+
+def _one_line(text: str) -> str:
+    return " ".join(text.split())
+
+
+def format_answer(answer: Answer, searched: tuple[Page, ...] = ()) -> str:
+    if answer.sources:
+        lines = [answer.text, "", "Sources:"]
+        for source in answer.sources:
+            lines.append(f"  [{source.number}] {source.title}")
+            lines.append(f"      {source.url}")
+            lines.extend(f'      "{_one_line(quote)}"' for quote in source.quotes)
+        return "\n".join(lines)
+
+    if searched:
+        lines = [answer.text, "", "No inline citations. Pages searched for this answer:"]
+        lines.extend(f"  - {page.title}\n    {page.url}" for page in searched)
+        return "\n".join(lines)
+
+    return f"{answer.text}\n\nNo sources cited."

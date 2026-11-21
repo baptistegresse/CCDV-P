@@ -30,6 +30,14 @@ def test_ask_prints_the_answer_with_numbered_sources(direct_message, capsys):
     assert "claude shannon birth date" in output
 
 
+def test_ask_shows_searched_pages_when_dynamic_answer_has_no_citations(capsys):
+    main(["ask", "question"], client=FakeClient([load_message("dynamic_search")]))
+
+    output = capsys.readouterr().out
+    assert "No inline citations" in output
+    assert "PEP 745" in output
+
+
 def test_ask_basic_flag_switches_the_tool_version(direct_message):
     client = FakeClient([direct_message])
 
