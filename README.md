@@ -36,6 +36,8 @@ modules/
 
 You'll need an [Anthropic API key](https://console.anthropic.com/) for modules that call the Claude API.
 
+💸 **Student budget first:** each module defaults to the cheapest model and settings that did the job in live tests, prints the estimated cost of every run, and ships tests that run offline for free. The measurements are in each module's README.
+
 ## Contributing
 
 Found a bug, a clearer way to show a concept, or a lesson that's missing? Issues and PRs are welcome.

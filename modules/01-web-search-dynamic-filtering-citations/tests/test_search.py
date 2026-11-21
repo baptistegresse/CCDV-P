@@ -49,7 +49,7 @@ def test_single_request_when_claude_finishes_in_one_turn(direct_message):
 def test_sends_the_tool_and_the_refusal_fallback(direct_message):
     client = FakeClient([direct_message])
 
-    run_search(client, "When was Claude Shannon born?", SearchMode.DYNAMIC)
+    run_search(client, "When was Claude Shannon born?", SearchMode.DYNAMIC, model="claude-opus-5-5")
 
     request = client.calls[0]
     assert request["tools"] == [{"type": "web_search_20260318", "name": "web_search"}]
@@ -102,6 +102,38 @@ def test_adds_up_usage_across_continuations(direct_message):
 
     assert result.usage.input_tokens == 6039 * 2
     assert result.usage.web_search_requests == 2
+
+
+def test_uses_the_requested_model(direct_message):
+    client = FakeClient([direct_message])
+
+    run_search(client, "question", SearchMode.DYNAMIC, model="claude-sonnet-5-5")
+
+    assert client.calls[0]["model"] == "claude-sonnet-5-5"
+
+
+def test_haiku_requests_are_sent_without_server_side_fallbacks(direct_message):
+    client = FakeClient([direct_message])
+
+    run_search(client, "question", SearchMode.DYNAMIC, model="claude-haiku-5-5")
+
+    assert "fallbacks" not in client.calls[0]
+    assert "betas" not in client.calls[0]
+
+
+def test_sends_a_system_prompt_only_when_given(direct_message):
+    client = FakeClient([direct_message, direct_message])
+
+    run_search(client, "question", SearchMode.DYNAMIC)
+    run_search(client, "question", SearchMode.DYNAMIC, system="Cite every claim.")
+
+    assert "system" not in client.calls[0]
+    assert client.calls[1]["system"] == "Cite every claim."
+
+
+def test_rejects_an_unknown_model():
+    with pytest.raises(ValueError, match="unknown model"):
+        run_search(FakeClient([]), "question", SearchMode.DYNAMIC, model="gpt-5")
 
 
 def test_stops_after_the_continuation_limit():

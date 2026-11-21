@@ -17,7 +17,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any
 
-MODEL = "claude-opus-5-5"
+from cited_search.models import DEFAULT_MODEL, get_model
+
 MAX_TOKENS = 16_000
 DEFAULT_MAX_CONTINUATIONS = 5
 
@@ -86,12 +87,18 @@ def run_search(
     max_uses: int | None = None,
     allowed_domains: tuple[str, ...] = (),
     max_continuations: int = DEFAULT_MAX_CONTINUATIONS,
+    model: str = DEFAULT_MODEL,
+    system: str | None = None,
 ) -> SearchResult:
     """Ask `question` with web search enabled and return Claude's final message."""
     if not question.strip():
         raise ValueError("question must not be empty")
 
+    model_info = get_model(model)
     tool = build_web_search_tool(mode, max_uses, allowed_domains)
+    optional_args: dict = {"system": system} if system else {}
+    if model_info.supports_fallbacks:
+        optional_args = {**optional_args, "betas": [FALLBACK_BETA], "fallbacks": "default"}
     user_turn = {"role": "user", "content": question}
     turn_content: tuple[Any, ...] = ()
     container_id: str | None = None
@@ -104,12 +111,11 @@ def run_search(
         resume_args = {"container": container_id} if container_id else {}
 
         message = client.beta.messages.create(
-            model=MODEL,
+            model=model,
             max_tokens=MAX_TOKENS,
             messages=messages,
             tools=[tool],
-            betas=[FALLBACK_BETA],
-            fallbacks="default",
+            **optional_args,
             **resume_args,
         )
         usage = usage.plus(message.usage)

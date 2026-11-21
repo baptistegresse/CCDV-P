@@ -38,12 +38,54 @@ def test_ask_shows_searched_pages_when_dynamic_answer_has_no_citations(capsys):
     assert "PEP 745" in output
 
 
-def test_ask_basic_flag_switches_the_tool_version(direct_message):
+def test_ask_prints_an_estimated_cost(direct_message, capsys):
+    main(["ask", "--model", "claude-haiku-5-5", "question"], client=FakeClient([direct_message]))
+
+    output = capsys.readouterr().out
+    assert "Estimated cost: $0.0111" in output  # 6,039 in + 931 out on Haiku + 1 search
+    assert "claude-haiku-5-5" in output
+
+
+def test_ask_passes_model_and_system_prompt(direct_message):
     client = FakeClient([direct_message])
 
-    main(["ask", "--basic", "question"], client=client)
+    main(["ask", "--model", "claude-sonnet-5-5", "--system", "Cite sources.", "question"], client=client)
 
-    assert client.calls[0]["tools"][0]["type"] == "web_search_20250305"
+    assert client.calls[0]["model"] == "claude-sonnet-5-5"
+    assert client.calls[0]["system"] == "Cite sources."
+
+
+def test_compare_prints_a_cost_column(direct_message, error_message, capsys):
+    main(["compare", "--model", "claude-haiku-5-5", "question"], client=FakeClient([error_message, direct_message]))
+
+    assert "est. cost" in capsys.readouterr().out
+
+
+def test_defaults_protect_the_budget_haiku_basic_mode_and_a_search_cap(direct_message):
+    client = FakeClient([direct_message])
+
+    main(["ask", "question"], client=client)
+
+    request = client.calls[0]
+    assert request["model"] == "claude-haiku-5-5"
+    assert request["tools"][0]["type"] == "web_search_20250305"
+    assert request["tools"][0]["max_uses"] == 5
+
+
+def test_mode_flag_switches_to_dynamic_filtering(direct_message):
+    client = FakeClient([direct_message])
+
+    main(["ask", "--mode", "dynamic", "question"], client=client)
+
+    assert client.calls[0]["tools"][0]["type"] == "web_search_20260318"
+
+
+def test_compare_applies_the_same_search_cap_to_both_modes(direct_message, error_message):
+    client = FakeClient([error_message, direct_message])
+
+    main(["compare", "--max-uses", "2", "question"], client=client)
+
+    assert [c["tools"][0]["max_uses"] for c in client.calls] == [2, 2]
 
 
 def test_ask_passes_domain_and_max_uses_limits(direct_message):
