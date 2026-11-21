@@ -1,0 +1,63 @@
+{
+  "id": "msg_fixture_two_steps",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "content": [
+    {
+      "type": "server_tool_use",
+      "id": "srvtoolu_code_a",
+      "name": "code_execution",
+      "caller": null,
+      "input": {"code": "r = await web_search({\"query\": \"latest python release\"})\nfor x in r[:6]:\n    print(x['title'])"}
+    },
+    {
+      "type": "server_tool_use",
+      "id": "srvtoolu_search_a",
+      "name": "web_search",
+      "caller": {"type": "code_execution_20260120", "tool_id": "srvtoolu_code_a"},
+      "input": {"query": "latest python release"}
+    },
+    {
+      "type": "web_search_tool_result",
+      "tool_use_id": "srvtoolu_search_a",
+      "caller": {"type": "code_execution_20260120", "tool_id": "srvtoolu_code_a"},
+      "content": [
+        {"type": "web_search_result", "url": "https://www.python.org/downloads/", "title": "Download Python", "encrypted_content": "fixture-not-real", "page_age": null}
+      ]
+    },
+    {
+      "type": "code_execution_tool_result",
+      "tool_use_id": "srvtoolu_code_a",
+      "content": {
+        "type": "encrypted_code_execution_result",
+        "encrypted_stdout": "fixture-not-real",
+        "stderr": "TypeError: string indices must be integers",
+        "return_code": 1,
+        "content": []
+      }
+    },
+    {
+      "type": "server_tool_use",
+      "id": "srvtoolu_code_b",
+      "name": "code_execution",
+      "caller": null,
+      "input": {"code": "import json\nfor x in json.loads(r)[:3]:\n    print(x['title'], x['content'][:300])"}
+    },
+    {
+      "type": "code_execution_tool_result",
+      "tool_use_id": "srvtoolu_code_b",
+      "content": {
+        "type": "code_execution_result",
+        "stdout": "Download Python  Python 3.15.2 is the latest stable release.",
+        "stderr": "",
+        "return_code": 0,
+        "content": []
+      }
+    },
+    {"type": "text", "text": "Python 3.15.2 is the latest stable release.", "citations": null}
+  ],
+  "usage": {"input_tokens": 20000, "output_tokens": 800, "server_tool_use": {"web_search_requests": 1, "web_fetch_requests": 0}}
+}

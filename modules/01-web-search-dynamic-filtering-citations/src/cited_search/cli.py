@@ -13,6 +13,7 @@ from cited_search.render import (
     search_queries,
     searched_pages,
 )
+from cited_search.filtering import filtering_steps, format_filtering_steps
 from cited_search.models import DEFAULT_MODEL, MODELS, estimate_cost
 from cited_search.search import SearchMode, SearchResult, TooManyContinuationsError, run_search
 
@@ -43,6 +44,7 @@ def _parser() -> argparse.ArgumentParser:
         "--mode", choices=list(MODES), default="basic", help="basic = web_search_20250305, dynamic = web_search_20260318"
     )
     ask.add_argument("--domain", action="append", default=[], help="only search this domain (repeatable)")
+    ask.add_argument("--show-code", action="store_true", help="print the filtering code Claude wrote (dynamic mode)")
 
     compare = commands.add_parser(
         "compare", parents=[common], help="run basic vs dynamic filtering and compare usage and cost"
@@ -72,7 +74,7 @@ def _cost_line(result: SearchResult, model_id: str) -> str:
     )
 
 
-def _print_result(result: SearchResult, model_id: str) -> int:
+def _print_result(result: SearchResult, model_id: str, show_code: bool = False) -> int:
     if result.message.stop_reason == "refusal":
         details = result.message.stop_details
         explanation = details.explanation if details else "no details"
@@ -81,6 +83,10 @@ def _print_result(result: SearchResult, model_id: str) -> int:
 
     for code in search_errors(result.content):
         print(f"warning: a web search failed ({code})", file=sys.stderr)
+
+    if show_code:
+        print(format_filtering_steps(filtering_steps(result.content)))
+        print()
 
     queries = search_queries(result.content)
     print("Searched for: " + (", ".join(f'"{q}"' for q in queries) or "nothing (answered directly)"))
@@ -108,7 +114,7 @@ def _print_comparison(basic: SearchResult, dynamic: SearchResult, model_id: str)
 
 def _run(client: Any, args: argparse.Namespace) -> int:
     if args.command == "ask":
-        return _print_result(_ask(client, args), args.model)
+        return _print_result(_ask(client, args), args.model, args.show_code)
 
     options = {"model": args.model, "system": args.system, "max_uses": args.max_uses}
     basic = run_search(client, args.question, SearchMode.BASIC, **options)

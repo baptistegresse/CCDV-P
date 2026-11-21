@@ -46,6 +46,20 @@ def test_ask_prints_an_estimated_cost(direct_message, capsys):
     assert "claude-haiku-5-5" in output
 
 
+def test_show_code_prints_the_filtering_code(capsys):
+    main(["ask", "--mode", "dynamic", "--show-code", "question"], client=FakeClient([load_message("dynamic_two_steps")]))
+
+    output = capsys.readouterr().out
+    assert "Filtering step 1 of 2" in output
+    assert "json.loads(r)" in output
+
+
+def test_without_show_code_the_filtering_code_stays_hidden(capsys):
+    main(["ask", "--mode", "dynamic", "question"], client=FakeClient([load_message("dynamic_two_steps")]))
+
+    assert "Filtering step" not in capsys.readouterr().out
+
+
 def test_ask_passes_model_and_system_prompt(direct_message):
     client = FakeClient([direct_message])
 
