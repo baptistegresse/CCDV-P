@@ -15,7 +15,8 @@ The official course explains *what* to do. This repo shows *how it looks in code
 
 | # | Lesson | Concept | Example | Status |
 |---|--------|---------|---------|--------|
-| 01 | _coming soon_ | | | 🚧 |
+| 01 | [Web search: Dynamic filtering and citations](https://www.youtube.com/watch?v=JPDMo4M3kME) | Server tools, dynamic filtering, citations, `pause_turn` | [`cited-search` CLI](modules/01-web-search-dynamic-filtering-citations/) | ✅ |
+| 02 | _coming soon_ | | | 🚧 |
 
 Each module lives in its own folder:
 
