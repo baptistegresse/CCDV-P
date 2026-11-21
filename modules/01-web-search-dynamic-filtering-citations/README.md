@@ -118,6 +118,7 @@ uv run cited-search ask --mode dynamic --show-code --system "When you filter web
 
 - With it, Sonnet uses **33% fewer input tokens** and 1.6 code steps instead of 3.5. On Haiku the cost barely moves: the guided code reads more useful content.
 - **Citations:** 0 of 80 runs that went through code had inline citations; 10 of 10 runs where Claude called `web_search` directly did.
+- **Reported to Anthropic** on November 21, 2026, through Console support, with the reproduction and the data.
 - **What we did not show:** the outdated Python answers from earlier runs (3.14 instead of 3.15.2) did not come back in this series, so the effect on answer quality is intermittent. 90 runs on one day is a strong signal for the crash, not a benchmark.
 
 #### Reproduce it
