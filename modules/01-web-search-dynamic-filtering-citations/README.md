@@ -95,7 +95,31 @@ The output of a step that **calls** `web_search` always comes back encrypted (`e
 | First code step crashed (it assumed a list, `web_search` returned a JSON string) | 4 / 4 runs |
 | Inline citations when Claude went through code / searched directly | 0 runs / 3 of 3 runs |
 
-So in practice, "filtering" mostly meant **cutting**: the first results, the first characters. On the Python question the code printed only the first 1,500 characters of the raw results, and the answer was outdated again (3.14 instead of 3.15.2). Our guess is that the right information was further down. Run `--show-code` and judge the filter before you trust it.
+So in practice, "filtering" mostly meant **cutting**: the first results, the first characters. On the Python question the code printed only the first 1,500 characters of the raw results, and the answer was outdated again (3.14 instead of 3.15.2). A rerun with `--show-code` confirmed it: the search had found "Python 3.15.0 (final) is here!" on blog.python.org, but in 7th position, past the cut.
+
+#### Bigger model, or a better prompt?
+
+Same 7 questions, dynamic mode, one run each. Pattern counts come from simple regexes on the code, so treat them as rough:
+
+| | Haiku 5.5 | Sonnet 5.5 | **Haiku 5.5 + filter guide** |
+|---|---:|---:|---:|
+| Runs that used filtering code | 4 / 7 | 7 / 7 | 6 / 7 |
+| First code step crashed (list vs JSON string) | 4 / 4 | **7 / 7** | **0 / 6** |
+| Code steps parsing with `json.loads` | 1 / 11 | 10 / 25 | 6 / 7 |
+| Python question answered correctly (3.15.2) | ❌ | ✅ | ✅ |
+| Inline citations in runs that used code | 0 | 0 | 0 |
+| Cost of the 7 runs | $0.18 | **$0.82** | **$0.16** |
+
+- **Sonnet hits the same bug** on every first step. It gets the right answer by doing more steps (25 instead of 11) and reading more, at 5× the price.
+- **The fix is one paragraph of system prompt.** Tell Claude what `web_search` returns and how to filter, and Haiku stops crashing, filters by date and terms, and finds 3.15.2 at Haiku's price:
+
+```bash
+uv run cited-search ask --mode dynamic --show-code --system "When you filter web search results with code: web_search returns a JSON string, so parse it with json.loads first. Then keep only the results whose title or content mention the key terms of the question, prefer the most recent ones (check page_age and the dates in the content), and print the passages around those terms. Never truncate the raw results before filtering them." "What is the latest stable Python version?"
+```
+
+- **Citations stay empty** whenever Claude goes through code, guided or not, Haiku or Sonnet.
+
+Only the Python answer was checked for correctness. Run `--show-code` and judge the filter before you trust it.
 
 ### 3. Citations
 Claude splits its answer into several `text` blocks. A block that relies on a source carries a `citations` list:

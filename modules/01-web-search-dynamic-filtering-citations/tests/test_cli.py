@@ -60,6 +60,17 @@ def test_without_show_code_the_filtering_code_stays_hidden(capsys):
     assert "Filtering step" not in capsys.readouterr().out
 
 
+def test_an_invalid_search_call_is_labelled_instead_of_printed_as_empty_quotes(capsys):
+    message = load_message("direct_search")
+    message.content[1].input = {}
+
+    main(["ask", "question"], client=FakeClient([message]))
+
+    output = capsys.readouterr().out
+    assert "(invalid query)" in output
+    assert 'Searched for: ""' not in output
+
+
 def test_ask_passes_model_and_system_prompt(direct_message):
     client = FakeClient([direct_message])
 
